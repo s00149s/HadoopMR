@@ -11,17 +11,15 @@ public class DateKey implements WritableComparable<DateKey> {
 	private String year;
 	private Integer month;
 
-	public DateKey() { // bin 생성자
+	public DateKey() {
 
 	}
 
-	// 우클릭 > Source > Generate fields
 	public DateKey(String year, Integer month) {
 		this.year = year;
 		this.month = month;
 	}
 
-	// 두 항목에 대하여 getter와 setter 만들어주기
 	public String getYear() {
 		return year;
 	}
@@ -38,27 +36,25 @@ public class DateKey implements WritableComparable<DateKey> {
 		this.month = month;
 	}
 
-	// Override/implement Methods : 기본 3개에 toString()까지 override
-
 	@Override
 	public void write(DataOutput out) throws IOException {
+		// TODO Auto-generated method stub
 		WritableUtils.writeString(out, year);
-		out.writeInt(month); // 하둡의 write 메소드 형식 구현
-
+		out.writeInt(month);
 	}
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
+		// TODO Auto-generated method stub
 		year = WritableUtils.readString(in);
 		month = in.readInt();
-
 	}
 
-	// DateKey에 CompareTo 구현
 	@Override
 	public int compareTo(DateKey key) {
-		int result = year.compareTo(key.year); // 자바 String 클래스의 compareTo 메서드로 문자열 year끼리 비교
-		if (result == 0) { // 동일하면 0, 뒤쪽이 적으면 음수, 앞쪽이 적으면 양수
+		// TODO Auto-generated method stub
+		int result = year.compareTo(key.year);
+		if (result == 0) {
 			result = month.compareTo(key.month);
 		}
 		return result;
@@ -66,8 +62,7 @@ public class DateKey implements WritableComparable<DateKey> {
 
 	@Override
 	public String toString() {
-		// 연도, 월 -> string으로 만들어줌
-		// +로 이어주지 않고, append로 연결해줌 -> 문자열이 길어지면 메모리 효율이 급격히 나빠져 StringBuilder 쓰는 것이 유리
+		// TODO Auto-generated method stub
 		return new StringBuilder().append(year).append(",").append(month).toString();
 	}
 

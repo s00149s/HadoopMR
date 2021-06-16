@@ -44,7 +44,7 @@ public class DelayCountMapperWithMultipleOutputs extends Mapper<LongWritable, Te
 				outputKey.set("A," + parser.getYear() + "," + parser.getMonth());
 				context.write(outputKey, outputValue);
 			} else if (parser.getArriveDelayTime() == 0) {
-				context.getCounter(DelayCounters.sceduled_arrival).increment(1);
+				context.getCounter(DelayCounters.scheduled_arrival).increment(1);
 			} else if (parser.getArriveDelayTime() < 0) {
 				context.getCounter(DelayCounters.early_arrival).increment(1);
 			} else {

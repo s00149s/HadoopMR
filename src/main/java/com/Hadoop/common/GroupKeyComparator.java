@@ -10,7 +10,7 @@ public class GroupKeyComparator extends WritableComparator {
 
 	@Override
 	public int compare(WritableComparable a, WritableComparable b) {
-
+		// TODO Auto-generated method stub
 		DateKey k1 = (DateKey) a;
 		DateKey k2 = (DateKey) b;
 

@@ -18,6 +18,7 @@ import org.apache.hadoop.util.ToolRunner;
 import com.Hadoop.mapper.DelayCountMapperWithMultipleOutputs;
 import com.Hadoop.reducer.DelayCountReducerWithMultipleOutputs;
 
+
 public class DelayCountWithMultipleOutputs extends Configured implements Tool {
 	public static void main(String[] args) throws Exception {
 		int res = ToolRunner.run(new Configuration(), new DelayCountWithMultipleOutputs(), args); // 인스턴스 이름 주의

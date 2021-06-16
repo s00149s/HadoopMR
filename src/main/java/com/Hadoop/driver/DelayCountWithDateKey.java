@@ -4,7 +4,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -20,9 +19,7 @@ import com.Hadoop.common.DateKeyComparator;
 import com.Hadoop.common.GroupKeyComparator;
 import com.Hadoop.common.GroupKeyPartitioner;
 import com.Hadoop.mapper.DelayCountMapperWithDateKey;
-import com.Hadoop.mapper.DelayCountMapperWithMultipleOutputs;
 import com.Hadoop.reducer.DelayCountReducerWithDateKey;
-import com.Hadoop.reducer.DelayCountReducerWithMultipleOutputs;
 
 public class DelayCountWithDateKey extends Configured implements Tool {
 	public static void main(String[] args) throws Exception {
@@ -30,7 +27,6 @@ public class DelayCountWithDateKey extends Configured implements Tool {
 		System.out.println("MR-Job Result:" + res);
 	}
 
-	// run 메소드 오버라이드
 	@Override
 	public int run(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -40,9 +36,9 @@ public class DelayCountWithDateKey extends Configured implements Tool {
 			System.out.println("Usage: DelayCountWithDateKey <in> <out>");
 			System.exit(2);
 		}
-
+		
 		Job job = Job.getInstance(getConf(), "DelayCountWithDateKey");
-
+		
 		FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
 		FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
 
@@ -52,23 +48,26 @@ public class DelayCountWithDateKey extends Configured implements Tool {
 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
-
+		
 		job.setOutputKeyClass(DateKey.class);
 		job.setOutputValueClass(IntWritable.class);
+		
+		MultipleOutputs.addNamedOutput(job, "departure"
+				, TextOutputFormat.class, DateKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "arrival"
+				, TextOutputFormat.class, DateKey.class, IntWritable.class);
 
-		MultipleOutputs.addNamedOutput(job, "departure", TextOutputFormat.class, DateKey.class, IntWritable.class);
-		MultipleOutputs.addNamedOutput(job, "arrival", TextOutputFormat.class, DateKey.class, IntWritable.class);
-
+		
 		// 추가
 		job.setPartitionerClass(GroupKeyPartitioner.class);
 		job.setGroupingComparatorClass(GroupKeyComparator.class);
 		job.setSortComparatorClass(DateKeyComparator.class);
 		job.setMapOutputKeyClass(DateKey.class);
 		job.setMapOutputValueClass(IntWritable.class);
-
+		
 		job.waitForCompletion(true);
 
 		return 0;
-
 	}
+
 }
