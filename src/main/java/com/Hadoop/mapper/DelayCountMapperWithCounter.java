@@ -33,7 +33,7 @@ public class DelayCountMapperWithCounter extends Mapper<LongWritable, Text, Text
 		if(workType.equals("departure")) {
 			if(parser.isDepartureDelayAvailable()) {	
 				if(parser.getDepartureDelayTime() > 0) {	// Available 하고, 양수일 경우에만 mapreduce 작업을 할 것
-					outputKey.set(parser.getYear() + "," + parser.getMonth());
+					outputKey.set("D, " + parser.getYear() + "," + parser.getMonth());
 					context.write(outputKey, outputValue);
 				} else if(parser.getDepartureDelayTime() == 0) {
 					context.getCounter(DelayCounters.scheduled_departure).increment(1);	// 정시에 출발하면 +1
@@ -49,7 +49,7 @@ public class DelayCountMapperWithCounter extends Mapper<LongWritable, Text, Text
 		else if (workType.equals("arrival")) {
 			if(parser.isArriveDelayAvailable()) {
 				if (parser.getArriveDelayTime() > 0) {
-					outputKey.set(parser.getYear() + "," + parser.getMonth());
+					outputKey.set("A, " + parser.getYear() + "," + parser.getMonth());
 					context.write(outputKey, outputValue);
 				} else if(parser.getArriveDelayTime() == 0) {
 					context.getCounter(DelayCounters.sceduled_arrival).increment(1);
