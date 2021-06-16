@@ -49,9 +49,9 @@ public class DelayCountReducerWithDateKey extends Reducer<DateKey, IntWritable, 
 				bMonth = key.getMonth();
 			}
 			if (key.getMonth() == bMonth) { // bMonth와 Month가 같으면 => 계속 축적해주기(결과 출력x)
-				result.set(sum);
 				outputKey.setYear(key.getYear().substring(2));
 				outputKey.setMonth(bMonth);
+				result.set(sum);
 				mos.write("departure", outputKey, result);
 			}
 
@@ -68,9 +68,9 @@ public class DelayCountReducerWithDateKey extends Reducer<DateKey, IntWritable, 
 				bMonth = key.getMonth();
 			}
 			if (key.getMonth() == bMonth) {
-				result.set(sum);
 				outputKey.setYear(key.getYear().substring(2));
-				outputKey.setMonth(bMonth);
+				outputKey.setMonth(key.getMonth());
+				result.set(sum);
 				mos.write("arrival", outputKey, result);
 			}
 		}

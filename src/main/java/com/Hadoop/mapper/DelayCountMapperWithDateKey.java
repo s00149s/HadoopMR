@@ -34,10 +34,10 @@ public class DelayCountMapperWithDateKey extends Mapper<LongWritable, Text, Date
 			} else if (parser.getDepartureDelayTime() < 0) { // delaytime이 음수면
 				context.getCounter(DelayCounters.early_departure).increment(1); // early_departure을 +1
 
-			} else {
-				context.getCounter(DelayCounters.not_available_departure).increment(1);
 			}
 
+		} else {
+			context.getCounter(DelayCounters.not_available_departure).increment(1);
 		}
 		if (parser.isArriveDelayAvailable()) {
 			if (parser.getArriveDelayTime() > 0) {
@@ -48,10 +48,10 @@ public class DelayCountMapperWithDateKey extends Mapper<LongWritable, Text, Date
 				context.getCounter(DelayCounters.sceduled_arrival).increment(1);
 			} else if (parser.getArriveDelayTime() < 0) {
 				context.getCounter(DelayCounters.early_arrival).increment(1);
-			} else {
-				context.getCounter(DelayCounters.not_available_arrival).increment(1);
 			}
 
+		} else {
+			context.getCounter(DelayCounters.not_available_arrival).increment(1);
 		}
 	}
 

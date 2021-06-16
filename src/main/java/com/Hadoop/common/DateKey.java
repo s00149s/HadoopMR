@@ -16,7 +16,7 @@ public class DateKey implements WritableComparable<DateKey> {
 	}
 
 	// 우클릭 > Source > Generate fields
-	public DateKey(String year, String montrh) {
+	public DateKey(String year, Integer month) {
 		this.year = year;
 		this.month = month;
 	}
@@ -61,7 +61,7 @@ public class DateKey implements WritableComparable<DateKey> {
 		if (result == 0) { // 동일하면 0, 뒤쪽이 적으면 음수, 앞쪽이 적으면 양수
 			result = month.compareTo(key.month);
 		}
-		return 0;
+		return result;
 	}
 
 	@Override
